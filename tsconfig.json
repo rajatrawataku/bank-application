@@ -1,0 +1,20 @@
+{
+	"compilerOptions": {
+		"target": "es6",
+		"jsx": "preserve",
+		"strict": true,
+		"strictPropertyInitialization": true,
+		"module": "esnext", 
+		"moduleResolution": "node",
+		"baseUrl": "./",
+		"allowSyntheticDefaultImports": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitAny": false,
+		"types": ["node", "jest"],
+		"typeRoots": ["node_modules/@types", "./typings"],
+		"incremental": true,
+		"skipLibCheck": true
+	},
+	"exclude": ["node_modules/**/*.js"]
+}

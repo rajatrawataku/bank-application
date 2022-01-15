@@ -1,0 +1,15 @@
+node_modules
+coverage
+.vscode
+.idea
+server/*.app.js
+server/app.js
+server/fk-cp-zion/**/*.*
+certificates
+build
+es6-shim*
+cross-platform-images/*
+*.hbs
+*.yaml
+*.yml
+standalone-scripts
