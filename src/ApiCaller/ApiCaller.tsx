@@ -64,7 +64,10 @@ export default class ApiCaller {
 		const actualPromsie = fetch(url, options)
 			.then(response => {
 				if (response.ok) {
-					return response.json();
+					return response.json().then(
+						data => Promise.resolve(data),
+						e => Promise.reject(e)
+					);
 				} else {
 					return Promise.reject(response);
 				}
@@ -77,6 +80,10 @@ export default class ApiCaller {
 		return Promise.race([timeout.start, actualPromsie]).then(
 			data => {
 				timeout.clear();
+				this.dataCache.set(url, {
+					timeStamp: new Date().getTime(),
+					data
+				});
 				return Promise.resolve(data);
 			},
 			e => {

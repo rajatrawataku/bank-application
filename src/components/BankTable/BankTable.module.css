@@ -1,0 +1,43 @@
+.table {
+	border: 1px solid #ccc;
+	width: 100%;
+}
+
+.bank-data-ctn {
+	width: 100%;
+	height: 500px;
+	overflow-y: scroll;
+	overflow-x: scroll;
+}
+
+.table-row {
+	display: flex;
+}
+
+.table-cell {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	width: 10%;
+	height: 70px;
+	border-bottom: 1px solid #ccc;
+	border-right: 1px solid #ccc;
+	padding: 10px;
+}
+
+.table-cell-address {
+	width: 35%;
+}
+
+.table-cell-bank_name {
+	width: 35%;
+}
+
+.last-row {
+	border-bottom: none;
+}
+
+.last-column {
+	border-right: none;
+}

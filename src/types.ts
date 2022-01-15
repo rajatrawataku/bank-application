@@ -15,7 +15,7 @@ export enum IAsyncStatus {
 	ERROR = 'ERROR'
 }
 
-export interface ICITY_DATA {
+export interface IDropDownOptionData {
 	value: string;
 	text: string;
 }

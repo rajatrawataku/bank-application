@@ -1,0 +1,24 @@
+.pagination-ctn {
+	margin-top: 20px;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.rows-per-page-text {
+	margin-right: 24px;
+}
+
+.act-btn {
+	font-weight: bold;
+	cursor: pointer;
+	padding: 4px;
+}
+
+.left-btn {
+	margin-right: 10px;
+}
+
+.right-btn {
+	margin-left: 10px;
+}
