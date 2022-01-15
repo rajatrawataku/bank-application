@@ -1,0 +1,81 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-size: 14px;
+	background-color: var(--color-page-bg);
+	color: #212121;
+	line-height: 1.4;
+}
+
+:global .row {
+	width: 100%;
+	display: flex;
+	flex-flow: row wrap;
+}
+
+:global .col {
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+}
+
+:global .flex {
+	flex: 1;
+}
+
+:global .col-1-5 {
+	width: 20%;
+}
+:global .col-2-5 {
+	width: 40%;
+}
+:global .col-3-5 {
+	width: 60%;
+}
+:global .col-4-5 {
+	width: 80%;
+}
+:global .col-5-5 {
+	width: 100%;
+}
+
+:global .col-1-12 {
+	width: 8.33%;
+}
+:global .col-2-12 {
+	width: 16.66%;
+}
+:global .col-3-12 {
+	width: 25%;
+}
+:global .col-4-12 {
+	width: 33.33%;
+}
+:global .col-5-12 {
+	width: 41.66%;
+}
+:global .col-6-12 {
+	width: 50%;
+}
+:global .col-7-12 {
+	width: 58.33%;
+}
+:global .col-8-12 {
+	width: 66.66%;
+}
+:global .col-9-12 {
+	width: 75%;
+}
+:global .col-10-12 {
+	width: 83.33%;
+}
+:global .col-11-12 {
+	width: 91.66%;
+}
+:global .col-12-12 {
+	width: 100%;
+}
