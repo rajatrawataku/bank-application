@@ -1,11 +1,14 @@
 import Timeout from './Timeout';
 
+const DEFAULT_CACHE_TTL = 30000;
+const DEFAULT_TIMEOUT = 30000;
+
 interface IApiCallerProps {
-	cacheTTL: number;
+	cacheTTL?: number;
 	timeout?: number;
 }
 
-export default class ApiCaller {
+export class ApiCaller {
 	dataCache: Map<
 		string,
 		{
@@ -17,8 +20,8 @@ export default class ApiCaller {
 	cacheTTL: number;
 	timeout: number;
 
-	constructor(props: IApiCallerProps) {
-		const { cacheTTL, timeout = 30000 } = props;
+	constructor(props?: IApiCallerProps) {
+		const { cacheTTL = DEFAULT_CACHE_TTL, timeout = DEFAULT_TIMEOUT } = props || ({} as IApiCallerProps);
 		this.cacheTTL = cacheTTL;
 		this.timeout = timeout;
 	}
@@ -93,3 +96,7 @@ export default class ApiCaller {
 		);
 	};
 }
+
+const ApiCallerInstance = new ApiCaller();
+
+export default ApiCallerInstance;

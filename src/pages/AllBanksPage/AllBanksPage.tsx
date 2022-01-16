@@ -52,7 +52,6 @@ enum DROPDOWN_FIELD_TYPE {
 }
 
 export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksState> {
-	apiCaller = new ApiCaller({ cacheTTL: 30000 });
 	cityBankData: IBankData[] = [];
 	filterdCityBankData: IBankData[] = [];
 
@@ -158,7 +157,7 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 		const requestUrl = `${BANK_API_URL}?city=${value}`;
 
 		try {
-			const data = await this.apiCaller.get({ url: requestUrl });
+			const data = await ApiCaller.get({ url: requestUrl });
 			this.cityBankData = data;
 
 			this.setState({
