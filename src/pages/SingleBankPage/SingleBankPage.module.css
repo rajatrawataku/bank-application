@@ -1,0 +1,11 @@
+.single-bank-ctn {
+	max-width: 1360px;
+	width: 1280px;
+	margin-top: 60px;
+	background-color: #eee;
+}
+
+td {
+	text-align: center;
+	padding: 10px;
+}

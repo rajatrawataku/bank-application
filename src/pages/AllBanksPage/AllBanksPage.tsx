@@ -1,5 +1,6 @@
 import * as React from 'react';
 import cx from 'classnames';
+import { withRouter } from 'react-router-dom';
 
 import { IBankData, IAsyncStatus, IDropDownOptionData } from 'src/types';
 import {
@@ -28,6 +29,10 @@ import BankTable from 'src/components/BankTable/BankTable';
 
 interface IAllBanksProps {
 	rowsPerPage?: number;
+	history: {
+		push: (url: string) => void;
+	};
+	changeBank: (value: IBankData) => void;
 }
 interface IAllBanksState {
 	asyncStatus: IAsyncStatus;
@@ -44,7 +49,7 @@ enum DROPDOWN_FIELD_TYPE {
 	CITY = 'CITY'
 }
 
-export default class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksState> {
+export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksState> {
 	apiCaller = new ApiCaller({ cacheTTL: 30000 });
 	cityBankData: IBankData[] = [];
 	filterdCityBankData: IBankData[] = [];
@@ -160,6 +165,11 @@ export default class AllBanksPage extends React.PureComponent<IAllBanksProps, IA
 		this.getCityData();
 	}
 
+	moveToBankDetailsPage = (bank_ifsc_code: string, bankData: IBankData) => {
+		this.props.changeBank(bankData);
+		this.props.history.push(`/bank-details/${bank_ifsc_code}`);
+	};
+
 	render(): React.ReactNode {
 		const { asyncStatus } = this.state;
 
@@ -221,7 +231,11 @@ export default class AllBanksPage extends React.PureComponent<IAllBanksProps, IA
 							</div>
 							{this.filterdCityBankData.length > 0 ? (
 								<React.Fragment>
-									<BankTable data={currentShownData} header={DEFAULT_CATEGORY_TO_SHOW} />
+									<BankTable
+										onBankClick={this.moveToBankDetailsPage}
+										data={currentShownData}
+										header={DEFAULT_CATEGORY_TO_SHOW}
+									/>
 									<Pagination
 										maxListings={this.filterdCityBankData.length}
 										listingsPerPage={rowsPerPage}
@@ -252,3 +266,5 @@ export default class AllBanksPage extends React.PureComponent<IAllBanksProps, IA
 		}
 	}
 }
+
+export default withRouter(AllBanksPage);

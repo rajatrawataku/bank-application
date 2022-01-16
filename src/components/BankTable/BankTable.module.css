@@ -12,6 +12,7 @@
 
 .table-row {
 	display: flex;
+	cursor: pointer;
 }
 
 .table-cell {

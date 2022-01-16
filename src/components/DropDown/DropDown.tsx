@@ -28,13 +28,13 @@ export default function DropDown(props: IDropDownProps) {
 	return (
 		<div className={ctnClass}>
 			<select onChange={changeHandler} className={selectInputClass}>
-				<option value={placeHolderText} disabled selected={!isSelectedFromDropdown}>
+				<option key={placeHolderText} value={placeHolderText} disabled selected={!isSelectedFromDropdown}>
 					{placeHolderText}
 				</option>
 				{options.map((option: IDropDownOptionData, index: number) => {
 					const { value, text } = option;
 					return (
-						<option value={index} selected={value === selectedValue?.value}>
+						<option key={value} value={index} selected={value === selectedValue?.value}>
 							{text}
 						</option>
 					);

@@ -21,6 +21,7 @@ export const ALL_BANKS_TEXT = 'All Banks';
 export const FETCHING_DATA = 'Fetching City Data....';
 export const UNABLE_TO_FETCH_DATA = 'Unable to fetch Data';
 export const NO_BANK = 'There are no banks for this search';
+export const NO_BANK_DATA = 'No Bank Data Available';
 export const RETRY = 'Retry';
 
 export const DEFAULT_CATEGORY_TO_SHOW = ['bank_name', 'ifsc', 'branch', 'bank_id', 'address'];

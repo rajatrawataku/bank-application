@@ -9,6 +9,7 @@ import styles from './BankTable.module.css';
 interface IBankDataProps {
 	data: IBankData[];
 	header: string[];
+	onBankClick: (bank_code: string, bankData: IBankData) => void;
 }
 
 export default function BankTable(props: IBankDataProps) {
@@ -16,13 +17,23 @@ export default function BankTable(props: IBankDataProps) {
 	const maxRow = data.length - 1;
 	const maxColumn = header.length - 1;
 
+	const handleTableClick = event => {
+		const ifsccode = event.target?.dataset?.ifsccode;
+		const rowindex = event.target?.dataset?.rowindex;
+
+		if (ifsccode && rowindex !== undefined) {
+			props.onBankClick(ifsccode, data[Number(rowindex)]);
+		}
+	};
+
 	return (
 		<div className={styles['bank-data-ctn']}>
-			<table className={styles['table']}>
+			<table className={styles['table']} onClick={handleTableClick}>
 				<thead>
 					<tr className={styles['table-row']}>
 						{header.map((headData, columnNumber) => (
 							<td
+								key={columnNumber}
 								className={cx(styles['table-cell'], styles[`table-cell-${headData}`], {
 									[styles['last-column']]: columnNumber === maxColumn
 								})}
@@ -34,10 +45,15 @@ export default function BankTable(props: IBankDataProps) {
 				</thead>
 				<tbody>
 					{data.map((rowData, rowNumber) => {
+						const bankCode = rowData['ifsc'];
+
 						return (
-							<tr className={cx(styles['table-row'])}>
+							<tr key={`${rowData['bank_id']}-${bankCode}`} className={cx(styles['table-row'])}>
 								{header.map((headData, columnNumber) => (
 									<td
+										data-ifsccode={bankCode}
+										data-rowindex={rowNumber}
+										key={columnNumber}
 										className={cx(
 											styles['table-cell'],
 											styles[`table-cell-${headData}`],
