@@ -42,11 +42,13 @@ interface IAllBanksState {
 	selectedCategory?: IDropDownOptionData;
 	searchedText?: string;
 	selectedCity: IDropDownOptionData;
+	selectedRowsPerPage: IDropDownOptionData;
 }
 
 enum DROPDOWN_FIELD_TYPE {
 	CATEGORY = 'CATEGORY',
-	CITY = 'CITY'
+	CITY = 'CITY',
+	ROWS_PER_PAGE = 'ROWS_PER_PAGE'
 }
 
 export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksState> {
@@ -56,14 +58,15 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 
 	constructor(props: IAllBanksProps) {
 		super(props);
-		this.state = this.getInitialiseState();
+		this.state = this.getInitialiseState(props);
 	}
 
-	getInitialiseState = () => {
+	getInitialiseState = (props: IAllBanksProps) => {
 		const categories = DEFAULT_CATEGORY_TO_SHOW.map(key => ({
 			value: key,
 			text: CATEGORY_KEY_MAPPER[key]
 		}));
+		const rowsPerPage = props.rowsPerPage || DEFAULT_LISTINGS_PER_PAGE;
 
 		return {
 			asyncStatus: IAsyncStatus.LOADING,
@@ -72,7 +75,11 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 			selectedCity: DEFAULT_CITY_DROPDOWN_DATA[0],
 			dropDownCategory: categories,
 			selectedCategory: categories[0],
-			searchedText: ''
+			searchedText: '',
+			selectedRowsPerPage: {
+				value: rowsPerPage,
+				text: rowsPerPage
+			}
 		};
 	};
 
@@ -81,11 +88,18 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 			case DROPDOWN_FIELD_TYPE.CITY: {
 				this.setState(
 					{
-						...this.getInitialiseState(),
+						...this.getInitialiseState(this.props),
 						selectedCity: value
 					},
 					this.getCityData
 				);
+				break;
+			}
+			case DROPDOWN_FIELD_TYPE.ROWS_PER_PAGE: {
+				this.setState({
+					selectedRowsPerPage: value,
+					currentPageNumber: 1
+				});
 				break;
 			}
 			case DROPDOWN_FIELD_TYPE.CATEGORY:
@@ -105,9 +119,16 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 		});
 	};
 
-	handlePageNumberChange = (newPageNumber: number) => {
+	handle = (newPageNumber: number) => {
 		this.setState({
 			currentPageNumber: newPageNumber
+		});
+	};
+
+	handleChangeState = key => value => {
+		// @ts-ignore
+		this.setState({
+			[key]: value
 		});
 	};
 
@@ -154,7 +175,7 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 		const { selectedCity } = this.state;
 		this.setState(
 			{
-				...this.getInitialiseState(),
+				...this.getInitialiseState(this.props),
 				selectedCity
 			},
 			this.getCityData
@@ -184,8 +205,16 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 			case IAsyncStatus.SUCCESS: {
 				this.setFilteredBankData();
 
-				const { dropDownCity, dropDownCategory, selectedCity, selectedCategory, currentPageNumber } = this.state;
-				const { rowsPerPage = DEFAULT_LISTINGS_PER_PAGE } = this.props;
+				const {
+					dropDownCity,
+					dropDownCategory,
+					selectedCity,
+					selectedCategory,
+					currentPageNumber,
+					selectedRowsPerPage
+				} = this.state;
+
+				const rowsPerPage = selectedRowsPerPage.value as number;
 
 				const currentShownData = this.filterdCityBankData.slice(
 					rowsPerPage * (currentPageNumber - 1),
@@ -240,7 +269,9 @@ export class AllBanksPage extends React.PureComponent<IAllBanksProps, IAllBanksS
 										maxListings={this.filterdCityBankData.length}
 										listingsPerPage={rowsPerPage}
 										currentPage={currentPageNumber}
-										changePageNumber={this.handlePageNumberChange}
+										changePageNumber={this.handleChangeState('currentPageNumber')}
+										changeListingPerPage={this.handleDropDownChange(DROPDOWN_FIELD_TYPE.ROWS_PER_PAGE)}
+										selectedRowsPerPage={selectedRowsPerPage}
 									/>
 								</React.Fragment>
 							) : (

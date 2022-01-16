@@ -3,6 +3,9 @@ import cx from 'classnames';
 
 // @ts-ignore
 import styles from './Pagination.module.css';
+import DropDown from '../DropDown/DropDown';
+import { IDropDownOptionData } from 'src/types';
+import { LISTINGS_PER_PAGE, LISTINGS_PER_PAGE_DROPDOWN_OPTIONS } from 'src/utils/constants';
 
 interface IStyleProps {
 	ctnClass: string;
@@ -14,6 +17,8 @@ interface IPaginationProps {
 	listingsPerPage: number;
 	styleProps?: IStyleProps;
 	changePageNumber: (newPageNumber: number) => void;
+	changeListingPerPage: (value: IDropDownOptionData) => void;
+	selectedRowsPerPage: IDropDownOptionData;
 }
 
 enum ActionType {
@@ -22,7 +27,8 @@ enum ActionType {
 }
 
 export default function Pagination(props: IPaginationProps) {
-	const { maxListings, currentPage, listingsPerPage, changePageNumber } = props;
+	const { maxListings, currentPage, listingsPerPage, changePageNumber, changeListingPerPage, selectedRowsPerPage } =
+		props;
 
 	const onChangeClickHandler = (actionType: ActionType) => () => {
 		switch (actionType) {
@@ -47,12 +53,25 @@ export default function Pagination(props: IPaginationProps) {
 		}
 	};
 
+	const dropChangeHandler = (selectedOption: IDropDownOptionData) => {
+		changeListingPerPage(selectedOption);
+	};
+
 	const maxListingsIndex = listingsPerPage * currentPage;
 	const currentStartListing = listingsPerPage * (currentPage - 1) + 1;
 	const currentEndListing = maxListingsIndex > maxListings ? maxListings : maxListingsIndex;
 
 	return (
 		<div className={styles['pagination-ctn']}>
+			<DropDown
+				selectedValue={selectedRowsPerPage}
+				placeHolderText={LISTINGS_PER_PAGE}
+				options={LISTINGS_PER_PAGE_DROPDOWN_OPTIONS}
+				onChangeHandler={dropChangeHandler}
+				styleProps={{
+					ctnClass: styles['dropdown-ctn']
+				}}
+			/>
 			<span className={styles['rows-per-page-text']}>{`Rows per page: ${listingsPerPage}`}</span>
 			<div className={cx(styles['act-btn'], styles['left-btn'])} onClick={onChangeClickHandler(ActionType.BACK)}>
 				{'<'}

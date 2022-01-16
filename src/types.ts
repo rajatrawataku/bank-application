@@ -16,6 +16,6 @@ export enum IAsyncStatus {
 }
 
 export interface IDropDownOptionData {
-	value: string;
-	text: string;
+	value: string | number;
+	text: string | number;
 }
